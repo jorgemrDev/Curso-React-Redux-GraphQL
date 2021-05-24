@@ -10,9 +10,13 @@ let URL = "https://rickandmortyapi.com/api/character";
 let GET_CHARACTERS = "GET_CHARACTERS";
 let GET_CHARACTERS_SUCCESS = "GET_CHARACTERS_SUCCESS";
 let GET_CHARACTERS_ERROR = "GET_CHARACTERS_ERROR";
+
+let REMOVE_CHARACTER = "REMOVE_CHARACTER";
 //reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case REMOVE_CHARACTER:
+      return { ...state, charactersList: action.payload };
     case GET_CHARACTERS:
       return { ...state, fetching: true };
     case GET_CHARACTERS_SUCCESS:
@@ -25,6 +29,16 @@ export default function reducer(state = initialState, action) {
 }
 
 //action (thunk)
+
+export let removeCharacterAction = () => (dispatch, getState) => {
+  let { charactersList } = getState().characters;
+  charactersList.shift();
+  dispatch({
+    type: REMOVE_CHARACTER,
+    payload: [...charactersList],
+  });
+};
+
 export let getCharactersAction = () => (dispatch, getState) => {
   dispatch({
     type: GET_CHARACTERS,
