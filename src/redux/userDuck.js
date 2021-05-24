@@ -1,4 +1,4 @@
-import { LoginWithGugul } from "../firebase";
+import { LoginWithGugul, SignOutWithGugul } from "../firebase";
 //constants
 let initialState = {
   loggedIn: false,
@@ -7,9 +7,12 @@ let initialState = {
 let LOGIN = "LOGIN";
 let LOGIN_SUCCES = "LOGIN_SUCCES";
 let LOGIN_ERROR = "LOGIN_ERROR";
+let LOGOUT = "LOGOUT";
 //reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case LOGOUT:
+      return { ...initialState };
     case LOGIN:
       return { ...state, fetching: true };
     case LOGIN_SUCCES:
@@ -26,6 +29,26 @@ function saveStorage(storage) {
 }
 
 //action (action creator)
+
+export let restoreSessionAction = () => (dispatch) => {
+  let storage = localStorage.getItem("storage");
+  storage = JSON.parse(storage);
+  if (storage && storage.user) {
+    dispatch({
+      type: LOGIN_SUCCES,
+      payload: storage.user,
+    });
+  }
+};
+
+export let logOutAction = () => (dispatch, getState) => {
+  SignOutWithGugul();
+  dispatch({
+    type: LOGOUT,
+  });
+  localStorage.removeItem("storage");
+};
+
 export let loginWithGugulAction = () => (dispatch, getState) => {
   dispatch({
     type: LOGIN,

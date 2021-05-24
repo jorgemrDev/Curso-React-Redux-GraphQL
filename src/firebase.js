@@ -20,3 +20,7 @@ export function LoginWithGugul() {
     .signInWithPopup(provider)
     .then((snap) => snap.user);
 }
+
+export function SignOutWithGugul() {
+  firebase.auth().signOut();
+}
