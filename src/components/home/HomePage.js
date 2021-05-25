@@ -2,16 +2,23 @@ import React from "react";
 import Card from "../card/Card";
 import styles from "./home.module.css";
 import { connect } from "react-redux";
-import { removeCharacterAction } from "../../redux/charsDuck";
+import {
+  removeCharacterAction,
+  addToFavoritesAction,
+} from "../../redux/charsDuck";
 
-function Home({ chars, removeCharacterAction }) {
+function Home({ chars, removeCharacterAction, addToFavoritesAction }) {
   function renderCharacter() {
     let char = chars[0];
-    return <Card leftClick={nextCharacter} {...char} />;
+    return <Card leftClick={nextCharacter} {...char} rightClick={addFav} />;
   }
 
   function nextCharacter() {
     removeCharacterAction();
+  }
+
+  function addFav() {
+    addToFavoritesAction();
   }
 
   return (
@@ -28,4 +35,7 @@ function MapStateToProps(store) {
   };
 }
 
-export default connect(MapStateToProps, { removeCharacterAction })(Home);
+export default connect(MapStateToProps, {
+  removeCharacterAction,
+  addToFavoritesAction,
+})(Home);

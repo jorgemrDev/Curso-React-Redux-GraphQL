@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 
 // Your web app's Firebase configuration
 let firebaseConfig = {
@@ -12,6 +13,21 @@ let firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+let db = firebase.firestore().collection("favs");
+
+export function getFavs(uid) {
+  return db
+    .doc(uid)
+    .get()
+    .then((snap) => {
+      return snap.data().array;
+    });
+}
+
+export function updateFavorites(array, uid) {
+  db.doc(uid).set({ array });
+}
 
 export function LoginWithGugul() {
   let provider = new firebase.auth.GoogleAuthProvider();

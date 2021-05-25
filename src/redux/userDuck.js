@@ -1,4 +1,6 @@
 import { LoginWithGugul, SignOutWithGugul } from "../firebase";
+import { getFavorites } from "./charsDuck";
+
 //constants
 let initialState = {
   loggedIn: false,
@@ -65,6 +67,7 @@ export let loginWithGugulAction = () => (dispatch, getState) => {
         },
       });
       saveStorage(getState());
+      getFavorites()(dispatch, getState);
     })
     .catch((e) => {
       console.log(e);
