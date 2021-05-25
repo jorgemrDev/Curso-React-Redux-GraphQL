@@ -15,7 +15,7 @@ export default function generateStore() {
     rootReducer,
     composeEnhancers(applyMiddleware(thunk))
   );
-  getCharactersAction()(store.dispatch, store.getAState);
+  getCharactersAction()(store.dispatch, store.getState);
   restoreSessionAction()(store.dispatch);
   return store;
 }
